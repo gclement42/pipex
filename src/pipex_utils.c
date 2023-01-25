@@ -6,7 +6,7 @@
 /*   By: gclement <gclement@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:04:34 by gclement          #+#    #+#             */
-/*   Updated: 2023/01/24 14:44:28 by gclement         ###   ########.fr       */
+/*   Updated: 2023/01/25 09:30:00 by gclement         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,33 @@ char	**set_argxec(char **cmd, char *filename)
 	return (argxec);
 }
 
-void	call_cmd(pid_t c_pid, char **argxec, char **cmd)
+void	call_cmd(char **argxec, char **cmd, char **all_path)
 {
-	char	*dest;
 	char	*path;
+	char	*tmp;
 	int		fd[2];
+	int		out;
+	int		x;
 
+	x = 0;
+	out = open("outfile", O_WRONLY | O_RDONLY);
 	if (pipe(fd) == -1)
 		exit (0);
-	if (c_pid == 0)
+	close(fd[0]);
+	close(fd[1]);
+	while (all_path[x])
 	{
-		dest = ft_strdup("/usr/bin/");
-		path = ft_strjoin(dest, cmd[0]);
-		execve(path, argxec, NULL);
+		tmp = ft_strjoin(all_path[x], "/");
+		path = ft_strjoin(tmp, cmd[0]);
+		if (execve(path, argxec, NULL) != -1)
+			break ;
+		free (path);
+		free (tmp);
+		x++;
 	}
-	else
-	{
-		dest = ft_strdup("/bin/");
-		path = ft_strjoin(dest, cmd[0]);
-		execve(path, argxec, NULL);
-	}
-	free (dest);
 	free (path);
-	//free_2d_array(argxec);
+	free (tmp);
+	free_2d_array(argxec);
 }
 
 char	**create_array_path(char *envp[])

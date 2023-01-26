@@ -6,7 +6,7 @@
 /*   By: gclement <gclement@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:21:51 by gclement          #+#    #+#             */
-/*   Updated: 2023/01/25 11:25:30 by gclement         ###   ########.fr       */
+/*   Updated: 2023/01/26 10:35:51 by gclement         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**set_argxec(char **cmd, char *filename);
 char	**set_argxec_child(char **cmd);
 void	call_cmd(char **argxec, char **cmd, char **all_path);
 char	**create_array_path(char *envp[]);
-void	child(int fd[2], char **argv, char **all_path);
+void	parent(int fd[2], char **argv, char **all_path);
 
 void	*free_2d_array(char **ptr);
 

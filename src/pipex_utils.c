@@ -6,7 +6,7 @@
 /*   By: gclement <gclement@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:04:34 by gclement          #+#    #+#             */
-/*   Updated: 2023/01/25 13:41:50 by gclement         ###   ########.fr       */
+/*   Updated: 2023/01/26 11:04:48 by gclement         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	call_cmd(char **argxec, char **cmd, char **all_path)
 	{
 		tmp = ft_strjoin(all_path[x], "/");
 		path = ft_strjoin(tmp, cmd[0]);
-		if (execve(path, argxec, NULL) != -1)
-			break ;
+		if (access(path, X_OK) == 0)
+			execve(path, argxec, NULL);
 		free (path);
 		free (tmp);
 		x++;
@@ -90,19 +90,15 @@ char	**create_array_path(char *envp[])
 	return (all_path);
 }
 
-void	child(int fd[2], char **argv, char **all_path)
+void	parent(int fd[2], char **argv, char **all_path)
 {
 	char	**cmd;
 	char	**argxec;
-	int		out;
 
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
 	close(fd[1]);
-	dup(fd[0]);
-	out = open(argv[4], O_WRONLY | O_RDONLY);
+	dup2(fd[0], STDIN_FILENO);
 	cmd = ft_split(argv[3], ' ');
 	argxec = set_argxec_child(cmd);
 	call_cmd(argxec, cmd, all_path);
-    close(fd[0]);
+	exit(0);
 }

@@ -6,13 +6,13 @@
 /*   By: gclement <gclement@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:04:34 by gclement          #+#    #+#             */
-/*   Updated: 2023/01/26 11:04:48 by gclement         ###   ########.fr       */
+/*   Updated: 2023/01/26 15:36:14 by gclement         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/pipex.h"
 
-char	**set_argxec(char **cmd, char *filename)
+char	**set_argxec(char **cmd)
 {
 	char	**argxec;
 	int		x;
@@ -21,29 +21,6 @@ char	**set_argxec(char **cmd, char *filename)
 	while (cmd[x])
 		x++;
 	argxec = malloc((x + 2) * sizeof(char *));
-	if (!argxec)
-		exit (EXIT_FAILURE);
-	x = 0;
-	while (cmd[x])
-	{
-		argxec[x] = cmd[x];
-		x++;
-	}
-	argxec[x] = filename;
-	x++;
-	argxec[x] = NULL;
-	return (argxec);
-}
-
-char	**set_argxec_child(char **cmd)
-{
-	char	**argxec;
-	int		x;
-
-	x = 0;
-	while (cmd[x])
-		x++;
-	argxec = malloc((x + 1) * sizeof(char *));
 	if (!argxec)
 		exit (EXIT_FAILURE);
 	x = 0;
@@ -94,11 +71,17 @@ void	parent(int fd[2], char **argv, char **all_path)
 {
 	char	**cmd;
 	char	**argxec;
+	int		out;
 
+	wait(NULL);
 	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	if (dup(fd[0]) == -1)
+		exit (0);
+	out = open(argv[4], O_CREAT | O_WRONLY | O_RDONLY, 0777);
 	cmd = ft_split(argv[3], ' ');
-	argxec = set_argxec_child(cmd);
+	argxec = set_argxec(cmd);
 	call_cmd(argxec, cmd, all_path);
 	exit(0);
 }

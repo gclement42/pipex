@@ -6,7 +6,7 @@
 /*   By: gclement <gclement@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 10:21:51 by gclement          #+#    #+#             */
-/*   Updated: 2023/01/26 10:35:51 by gclement         ###   ########.fr       */
+/*   Updated: 2023/01/26 13:59:01 by gclement         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@
 # include <unistd.h>
 # include "../Libft/libft.h"
 
-char	**set_argxec(char **cmd, char *filename);
-char	**set_argxec_child(char **cmd);
+char	**set_argxec(char **cmd);
 void	call_cmd(char **argxec, char **cmd, char **all_path);
 char	**create_array_path(char *envp[]);
 void	parent(int fd[2], char **argv, char **all_path);

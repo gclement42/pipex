@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../header/pipex.h"
+#include <stdio.h>
 
 char	**set_argxec(char **cmd)
 {
@@ -62,25 +63,25 @@ void	call_cmd(char **argxec, char **cmd, char **all_path)
 	exit (EXIT_SUCCESS);
 }
 
-char	**create_array_path(char *envp[])
-{
-	int		i;
-	char	**all_path;
-
-	i = 0;
-	while (ft_strnstr(envp[i], "PATH=", 5) == NULL)
-		i++;
-	all_path = ft_split(ft_strchr(envp[i], '='), ':');
-	if (!all_path)
-		exit (EXIT_FAILURE);
-	return (all_path);
-}
-
-void	execute_scnd_cmd(int fd[2], char **argv, char **all_path)
+static void exe_cmd(char *arg, char **all_path)
 {
 	char	**cmd;
 	char	**argxec;
+
+	cmd = ft_split(arg, ' ');
+	if (!cmd)
+		exit (EXIT_FAILURE);
+	argxec = set_argxec(cmd);
+	if (ft_strnstr(cmd[0], "./", 2) != 0)
+		exit_wrong_cmd(cmd);
+	call_cmd(argxec, cmd, all_path);
+}
+
+
+void	set_scnd_cmd(int fd[2], char **argv, char **all_path)
+{
 	int		out_fd;
+	int		fd_pipe2[2];
 
 	wait(NULL);
 	close(fd[1]);
@@ -89,18 +90,19 @@ void	execute_scnd_cmd(int fd[2], char **argv, char **all_path)
 	if (dup(fd[0]) == -1)
 		exit (EXIT_FAILURE);
 	out_fd = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
-	cmd = ft_split(argv[3], ' ');
-	if (!cmd)
-		exit (EXIT_FAILURE);
-	argxec = set_argxec(cmd);
-	call_cmd(argxec, cmd, all_path);
-	exit(0);
+	dup(out_fd);
+	if (open(argv[1], O_RDONLY) == -1)
+	{
+		close (out_fd);
+		pipe(fd_pipe2);
+		close (fd_pipe2[0]);
+		dup(fd_pipe2[1]);
+	}
+	exe_cmd(argv[3], all_path);
 }
 
-void	execute_frst_cmd(int fd[2], char **argv, char **all_path)
+void	set_frst_cmd(int fd[2], char **argv, char **all_path)
 {
-	char	**cmd;
-	char	**argxec;
 	int		in_fd;
 
 	in_fd = open(argv[1], O_RDONLY);
@@ -109,10 +111,6 @@ void	execute_frst_cmd(int fd[2], char **argv, char **all_path)
 	close(fd[0]);
 	dup2(in_fd, STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
-	cmd = ft_split(argv[2], ' ');
-	if (!cmd)
-		exit (EXIT_FAILURE);
-	argxec = set_argxec(cmd);
-	call_cmd(argxec, cmd, all_path);
-	exit (0);
+	exe_cmd(argv[2], all_path);
+	
 }

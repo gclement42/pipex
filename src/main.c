@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../header/pipex.h"
+#include <stdio.h>
 
 int	main(int argc, char	*argv[], char *envp[])
 {
@@ -22,15 +23,13 @@ int	main(int argc, char	*argv[], char *envp[])
 	{
 		if (pipe(fd) == -1)
 			exit (0);
-		if (open(argv[1], O_RDONLY) == -1)
-			exit (0);
 		all_path = create_array_path(envp);
 		pid = fork();
 		if (pid == -1)
 			exit(EXIT_FAILURE);
 		if (pid == 0)
-			execute_frst_cmd(fd, argv, all_path);
+			set_frst_cmd(fd, argv, all_path);
 		else
-			execute_scnd_cmd(fd, argv, all_path);
+			set_scnd_cmd(fd, argv, all_path);
 	}
 }

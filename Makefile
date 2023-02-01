@@ -16,7 +16,7 @@ LIBFT					= libft.a
 LIB_DIR					= Libft/
 
 	
-GCC						= CC
+GCC						= gcc
 CFLAGS					= -Wall -Wextra -Werror
 SANITIZE				= $(CFLAGS) -g -fsanitize=address
 

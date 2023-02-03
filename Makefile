@@ -13,7 +13,7 @@ SRC			 			= 	main.c pipex_utils.c manage_memory.c
 OBJECTS			    	= $(SRC:%.c=$(BUILD_DIR)%.o)
 	
 LIBFT					= libft.a
-LIB_DIR					= Libft/
+LIB_DIR					= libft/
 
 	
 GCC						= gcc

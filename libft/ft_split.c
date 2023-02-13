@@ -6,7 +6,7 @@
 /*   By: gclement <gclement@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 13:57:20 by gclement          #+#    #+#             */
-/*   Updated: 2023/01/07 14:30:43 by gclement         ###   ########.fr       */
+/*   Updated: 2023/02/13 10:58:23 by gclement         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	wordcount(char const *str, char c)
 		{
 			count++;
 			while (str[i] != c && str[i])
-			i++;
+				i++;
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: gclement <gclement@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 09:11:53 by gclement          #+#    #+#             */
-/*   Updated: 2022/11/20 11:16:43 by gclement         ###   ########.fr       */
+/*   Updated: 2023/02/13 13:26:21 by gclement         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	int	i;
-
-	i = 0;
 	if (s == NULL)
 		return ;
 	write(fd, s, ft_strlen(s));

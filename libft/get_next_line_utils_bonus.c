@@ -6,7 +6,7 @@
 /*   By: gclement <gclement@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:28:52 by gclement          #+#    #+#             */
-/*   Updated: 2023/01/05 14:14:09 by gclement         ###   ########.fr       */
+/*   Updated: 2023/02/13 13:24:50 by gclement         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 		while (src[i] && i < size - 1)
 		{
 			if (i < size - 1)
-			dest[i] = src[i];
-		i++;
+				dest[i] = src[i];
+			i++;
 		}
-	dest[i] = '\0';
+		dest[i] = '\0';
 		return (ft_strlen(src));
 	}
 	else

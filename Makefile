@@ -15,7 +15,6 @@ OBJECTS			    	= $(SRC:%.c=$(BUILD_DIR)%.o)
 LIBFT					= libft.a
 LIB_DIR					= libft/
 
-	
 GCC						= gcc
 CFLAGS					= -Wall -Wextra -Werror
 SANITIZE				= $(CFLAGS) -g -fsanitize=address
